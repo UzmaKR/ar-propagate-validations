@@ -3,15 +3,38 @@ get '/' do
   erb :index
 end
 
-get '/events/:id/show' do |id|
-  @event = Event.find(id)
+# start creation process
+get '/events/new' do
+    erb :fill_event_form
+end
+
+#save to database
+post '/events/create' do
+  @event = Event.new(params[:event])
+  if @event.save
+      redirect '/'
+  else
+    erb :fill_event_form
+  end
+end
+
+get '/events/:id/show' do
+  @event = Event.find(params[:id])
   erb :event_show
 end
 
-get '/events/new' do
-  #TODO IMPLEMENT ME
+#start edit process
+get '/event/:id/edit' do
+   @event = Event.find(params[:id])
+   p @event
+   erb :fill_event_form
 end
 
-post '/events/create' do
-  #TODO IMPLEMENT ME
+post '/event/:id' do 
+  @event = Event.find(params[:id])
+  if @event.update_attributes(params[:event])
+    redirect "/events/#{@event.id}/show"
+  else
+    erb :fill_event_form
+  end
 end
