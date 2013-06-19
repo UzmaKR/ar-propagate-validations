@@ -7,21 +7,23 @@
         <% end %>
   <% end %>
   
-  <% if @event && @event.id %>
-    <form action="/event/<%=@event.id%>" method="post" name="event">
-  <% else %>
-    <form action="/events/create" method="post" name="event">
-  <% end %>
+   
 
-    <b>Organizer name:</b>
-    <input type="text" name="event[organizer_name]" value="<%= (@event.organizer_name if @event) %>" ></br></br>
-    <b>Organizer email:</b>
-    <input type="text" name="event[organizer_email]" value="<%= (@event.organizer_email if @event) %>" ></br></br>
-    <b>Title:</b>
-    <input type="text" name="event[title]" value="<%= (@event.title if @event) %>"></br></br>
-    <b>Event date:</b>
-    <input type="date" name="event[date]" value="<%= (@event.date if @event) %>" ></br></br>
+    <form action="/events" method="post" name="event">
+
+      <% if @event && @event.id %>
+        <input type="hidden" name="_method" value="put">
+        <input type="hidden" name="id" value="<%= @event.id %>" >
+      <% end %>
+      <b>Organizer name:</b>
+      <input type="text" name="event[organizer_name]" value="<%= (@event.organizer_name if @event) %>" ></br></br>
+      <b>Organizer email:</b>
+      <input type="text" name="event[organizer_email]" value="<%= (@event.organizer_email if @event) %>" ></br></br>
+      <b>Title:</b>
+      <input type="text" name="event[title]" value="<%= (@event.title if @event) %>"></br></br>
+      <b>Event date:</b>
+      <input type="date" name="event[date]" value="<%= (@event.date if @event) %>" ></br></br>
  
-    <input type="submit" value="Update event" >
-  </form>
+      <input type="submit" value="Update event" >
+    </form>
 </div>

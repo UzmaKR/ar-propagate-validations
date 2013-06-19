@@ -4,12 +4,12 @@ get '/' do
 end
 
 # start creation process
-get '/events/new' do
+get '/events' do
     erb :fill_event_form
 end
 
 #save to database
-post '/events/create' do
+post '/events' do
   @event = Event.new(params[:event])
   if @event.save
       redirect '/'
@@ -18,23 +18,25 @@ post '/events/create' do
   end
 end
 
-get '/events/:id/show' do
+#Show particular event
+get '/events/:id' do
   @event = Event.find(params[:id])
   erb :event_show
 end
 
-#start edit process
-get '/event/:id/edit' do
-   @event = Event.find(params[:id])
-   p @event
-   erb :fill_event_form
+#Start edit process
+get '/events/:id/edit' do
+  @event = Event.find(params[:id])
+  erb :fill_event_form
 end
 
-post '/event/:id' do 
-  @event = Event.find(params[:id])
-  if @event.update_attributes(params[:event])
-    redirect "/events/#{@event.id}/show"
-  else
+## post updates
+put '/events' do
+   @event = Event.find(params[:id])
+   if @event.update_attributes(params[:event])
+    redirect '/'
+   else
     erb :fill_event_form
-  end
+   end
 end
+
